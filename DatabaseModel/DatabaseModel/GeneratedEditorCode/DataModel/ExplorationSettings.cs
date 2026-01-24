@@ -30,10 +30,11 @@ namespace EditorDatabase.DataModel
 			TurretShip = database.GetShipId(serializable.TurretShip);
 			InfectedPlanetFaction = database.GetFactionId(serializable.InfectedPlanetFaction);
 			HiveShipBuild = database.GetShipBuildId(serializable.HiveShipBuild);
-			GasCloudDPS = serializable.GasCloudDPS;
-			OnDataDeserialized(serializable, database);
+						GasCloudDPS = serializable.GasCloudDPS;
+						AsteroidBelt = AsteroidBeltSettings.Create(serializable.AsteroidBelt);
+			            OnDataDeserialized(serializable, database);
 		}
-
+			
 		public void Save(ExplorationSettingsSerializable serializable)
 		{
 			serializable.OutpostShip = OutpostShip.Value;
@@ -41,15 +42,52 @@ namespace EditorDatabase.DataModel
 			serializable.InfectedPlanetFaction = InfectedPlanetFaction.Value;
 			serializable.HiveShipBuild = HiveShipBuild.Value;
 			serializable.GasCloudDPS = GasCloudDPS;
-			OnDataSerialized(ref serializable);
+			serializable.AsteroidBelt = AsteroidBelt.Save();
+		    OnDataSerialized(ref serializable);
 		}
-
+		
 		public ItemId<Ship> OutpostShip = ItemId<Ship>.Empty;
 		public ItemId<Ship> TurretShip = ItemId<Ship>.Empty;
 		public ItemId<Faction> InfectedPlanetFaction = ItemId<Faction>.Empty;
 		public ItemId<ShipBuild> HiveShipBuild = ItemId<ShipBuild>.Empty;
 		public string GasCloudDPS;
-
+		public AsteroidBeltSettings AsteroidBelt;
+		
 		public static ExplorationSettings DefaultValue { get; private set; }
+
+		public class AsteroidBeltSettings
+		{
+			public static AsteroidBeltSettings Create(Serializable.AsteroidBeltSettings serializable)
+			{
+				return serializable == null ? DefaultValue : new AsteroidBeltSettings(serializable);
+			}
+		
+			public AsteroidBeltSettings(Serializable.AsteroidBeltSettings serializable)
+			{
+				MeteoriteChance = serializable.MeteoriteChance;
+				ContainerChance = serializable.ContainerChance;
+				ShipWreckChance = serializable.ShipWreckChance;
+				OutpostChance = serializable.OutpostChance;
+			}
+		
+			public Serializable.AsteroidBeltSettings Save()
+			{
+				return new Serializable.AsteroidBeltSettings
+				{
+					MeteoriteChance = MeteoriteChance,
+					ContainerChance = ContainerChance,
+					ShipWreckChance = ShipWreckChance,
+					OutpostChance = OutpostChance,
+				};
+			}
+		
+			public int MeteoriteChance;
+			public int ContainerChance;
+			public int ShipWreckChance;
+			public int OutpostChance;
+		
+			public static AsteroidBeltSettings DefaultValue { get; private set; }
+				= new AsteroidBeltSettings(new Serializable.AsteroidBeltSettings());
+		}
 	}
 }

@@ -29,4 +29,13 @@ namespace DatabaseMigration.v1.Serializable
 		[DefaultValue("MIN(level*2,500)")]
 		public string GasCloudDPS = "MIN(level*2,500)";
 	}
+
+	[Serializable]
+	public class AsteroidBeltSettings
+	{
+		public int MeteoriteChance;
+		public int ContainerChance;
+		public int ShipWreckChance;
+		public int OutpostChance;
+	}
 }
