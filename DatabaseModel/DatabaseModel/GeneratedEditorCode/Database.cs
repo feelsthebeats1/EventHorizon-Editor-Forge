@@ -43,6 +43,7 @@ namespace EditorDatabase
             foreach (var item in _satelliteBuildMap) item.Value.Save(_content.GetSatelliteBuild(item.Key));
             foreach (var item in _shipMap) item.Value.Save(_content.GetShip(item.Key));
             foreach (var item in _shipBuildMap) item.Value.Save(_content.GetShipBuild(item.Key));
+            foreach (var item in _skillMap) item.Value.Save(_content.GetSkill(item.Key));
             foreach (var item in _statUpgradeTemplateMap) item.Value.Save(_content.GetStatUpgradeTemplate(item.Key));
             foreach (var item in _technologyMap) item.Value.Save(_content.GetTechnology(item.Key));
             foreach (var item in _behaviorTreeMap) item.Value.Save(_content.GetBehaviorTree(item.Key));
@@ -90,6 +91,7 @@ namespace EditorDatabase
             if (type == typeof(SatelliteBuild)) return _content.SatelliteBuildList.Select(item => new ItemId<SatelliteBuild>(item));
             if (type == typeof(Ship)) return _content.ShipList.Select(item => new ItemId<Ship>(item));
             if (type == typeof(ShipBuild)) return _content.ShipBuildList.Select(item => new ItemId<ShipBuild>(item));
+            if (type == typeof(Skill)) return _content.SkillList.Select(item => new ItemId<Skill>(item));
             if (type == typeof(StatUpgradeTemplate)) return _content.StatUpgradeTemplateList.Select(item => new ItemId<StatUpgradeTemplate>(item));
             if (type == typeof(Technology)) return _content.TechnologyList.Select(item => new ItemId<Technology>(item));
             if (type == typeof(BehaviorTreeModel)) return _content.BehaviorTreeList.Select(item => new ItemId<BehaviorTreeModel>(item));
@@ -136,6 +138,8 @@ namespace EditorDatabase
                 yield return GetShip(item.Id);
             foreach (var item in _content.ShipBuildList)
                 yield return GetShipBuild(item.Id);
+            foreach (var item in _content.SkillList)
+                yield return GetSkill(item.Id);
             foreach (var item in _content.StatUpgradeTemplateList)
                 yield return GetStatUpgradeTemplate(item.Id);
             foreach (var item in _content.TechnologyList)
@@ -208,6 +212,7 @@ namespace EditorDatabase
             if (type == typeof(SatelliteBuild)) return GetSatelliteBuildId(id);
             if (type == typeof(Ship)) return GetShipId(id);
             if (type == typeof(ShipBuild)) return GetShipBuildId(id);
+            if (type == typeof(Skill)) return GetSkillId(id);
             if (type == typeof(StatUpgradeTemplate)) return GetStatUpgradeTemplateId(id);
             if (type == typeof(Technology)) return GetTechnologyId(id);
             if (type == typeof(BehaviorTreeModel)) return GetBehaviorTreeId(id);
@@ -242,6 +247,7 @@ namespace EditorDatabase
 				case ItemType.SatelliteBuild: return GetSatelliteBuild(id);
 				case ItemType.Ship: return GetShip(id);
 				case ItemType.ShipBuild: return GetShipBuild(id);
+				case ItemType.Skill: return GetSkill(id);
 				case ItemType.StatUpgradeTemplate: return GetStatUpgradeTemplate(id);
 				case ItemType.Technology: return GetTechnology(id);
 				case ItemType.BehaviorTree: return GetBehaviorTree(id);
@@ -457,6 +463,18 @@ namespace EditorDatabase
             return item;
         }
 
+		public ItemId<Skill> GetSkillId(int id) { return new ItemId<Skill>(_content.GetSkill(id)); }
+        public Skill GetSkill(int id)
+        {
+            if (!_skillMap.TryGetValue(id, out var item))
+            {
+                var serializable = _content.GetSkill(id);
+                item = Skill.Create(serializable, this);
+                _skillMap.Add(id, item);
+            }
+            return item;
+        }
+
 		public ItemId<StatUpgradeTemplate> GetStatUpgradeTemplateId(int id) { return new ItemId<StatUpgradeTemplate>(_content.GetStatUpgradeTemplate(id)); }
         public StatUpgradeTemplate GetStatUpgradeTemplate(int id)
         {
@@ -632,6 +650,7 @@ namespace EditorDatabase
 			_satelliteBuildMap.Clear();
 			_shipMap.Clear();
 			_shipBuildMap.Clear();
+			_skillMap.Clear();
 			_statUpgradeTemplateMap.Clear();
 			_technologyMap.Clear();
 			_behaviorTreeMap.Clear();
@@ -676,6 +695,7 @@ namespace EditorDatabase
 		private readonly Dictionary<int, SatelliteBuild> _satelliteBuildMap = new Dictionary<int, SatelliteBuild>();
 		private readonly Dictionary<int, Ship> _shipMap = new Dictionary<int, Ship>();
 		private readonly Dictionary<int, ShipBuild> _shipBuildMap = new Dictionary<int, ShipBuild>();
+		private readonly Dictionary<int, Skill> _skillMap = new Dictionary<int, Skill>();
 		private readonly Dictionary<int, StatUpgradeTemplate> _statUpgradeTemplateMap = new Dictionary<int, StatUpgradeTemplate>();
 		private readonly Dictionary<int, Technology> _technologyMap = new Dictionary<int, Technology>();
 		private readonly Dictionary<int, BehaviorTreeModel> _behaviorTreeMap = new Dictionary<int, BehaviorTreeModel>();
