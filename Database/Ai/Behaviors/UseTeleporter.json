@@ -5,10 +5,16 @@
     "Type": 3,
     "Requirement": {
       "Type": 10,
-      "DeviceClass": 10
+      "DeviceClass": 21
     },
     "Nodes": [
-      {}
+      {
+        "Type": 9
+      },
+      {
+        "Type": 114,
+        "DeviceClass": 21
+      }
     ]
   }
 }

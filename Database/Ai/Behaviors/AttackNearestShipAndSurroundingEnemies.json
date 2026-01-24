@@ -16,8 +16,7 @@
           {
             "Type": 100,
             "MinValue": 0.5,
-            "MaxValue": 5.0,
-            "NoDrones": true
+            "MaxValue": 5.0
           },
           {
             "Type": 111,
@@ -33,10 +32,8 @@
         "Type": 4,
         "Nodes": [
           {
-            "Type": 117
-          },
-          {
-            "Type": 123
+            "Type": 1,
+            "ItemId": 141
           },
           {
             "Type": 3,

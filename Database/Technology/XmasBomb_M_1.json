@@ -4,5 +4,5 @@
   "ItemId": 96,
   "Price": 20,
   "Special": true,
-  "Dependencies": []
+  "DoesnPreventUnlocking": true
 }

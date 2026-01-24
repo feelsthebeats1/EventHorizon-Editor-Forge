@@ -5,7 +5,11 @@
     "Type": 4,
     "Nodes": [
       {
-        "Type": 104
+        "Type": 130
+      },
+      {
+        "Type": 1,
+        "ItemId": 133
       },
       {
         "Type": 1,
@@ -17,23 +21,7 @@
       },
       {
         "Type": 1,
-        "Requirement": {
-          "Type": 6,
-          "DifficultyLevel": 2
-        },
-        "ItemId": 110
-      },
-      {
-        "Type": 1,
-        "Requirement": {
-          "Type": 6,
-          "DifficultyLevel": 1
-        },
-        "ItemId": 111
-      },
-      {
-        "Type": 1,
-        "ItemId": 117
+        "ItemId": 132
       },
       {
         "Type": 1,
