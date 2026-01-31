@@ -124,6 +124,12 @@ namespace DatabaseMigration.v1.Storage
                 data.FileName = name;
                 ShipBuildList.Add(data);
             }
+            else if (type == ItemType.Skill)
+            {
+                var data = _serializer.FromJson<SkillSerializable>(content);
+                data.FileName = name;
+                SkillList.Add(data);
+            }
             else if (type == ItemType.StatUpgradeTemplate)
             {
                 var data = _serializer.FromJson<StatUpgradeTemplateSerializable>(content);
@@ -322,6 +328,8 @@ namespace DatabaseMigration.v1.Storage
                 contentLoader.LoadJson(item.FileName, _serializer.ToJson(item));
             foreach (var item in ShipBuildList)
                 contentLoader.LoadJson(item.FileName, _serializer.ToJson(item));
+            foreach (var item in SkillList)
+                contentLoader.LoadJson(item.FileName, _serializer.ToJson(item));
             foreach (var item in StatUpgradeTemplateList)
                 contentLoader.LoadJson(item.FileName, _serializer.ToJson(item));
             foreach (var item in TechnologyList)
@@ -443,6 +451,7 @@ namespace DatabaseMigration.v1.Storage
 		public List<SatelliteBuildSerializable> SatelliteBuildList { get; } = new List<SatelliteBuildSerializable>();
 		public List<ShipSerializable> ShipList { get; } = new List<ShipSerializable>();
 		public List<ShipBuildSerializable> ShipBuildList { get; } = new List<ShipBuildSerializable>();
+		public List<SkillSerializable> SkillList { get; } = new List<SkillSerializable>();
 		public List<StatUpgradeTemplateSerializable> StatUpgradeTemplateList { get; } = new List<StatUpgradeTemplateSerializable>();
 		public List<TechnologySerializable> TechnologyList { get; } = new List<TechnologySerializable>();
 		public List<BehaviorTreeSerializable> BehaviorTreeList { get; } = new List<BehaviorTreeSerializable>();
