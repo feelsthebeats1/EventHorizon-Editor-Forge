@@ -79,8 +79,8 @@ namespace GameDatabase.Controls
             var valueType = value.GetType();
             if (valueType.IsEnum)
             {
-                if ((int)value == default(int))
-                    return null;
+                //if ((int)value == default(int))
+                //    return null;
 
                 return CreateLabel(value.ToString(), 1, rowId);
             }
@@ -88,13 +88,21 @@ namespace GameDatabase.Controls
             if (valueType == typeof(NumericValue<int>))
             {
                 var numeric = (NumericValue<int>)value;
-                return numeric.Value != 0 ? CreateLabel(numeric.Value.ToString(), 1, rowId) : null;
+
+                //if (numeric.Value == 0)
+                //    return null;
+
+                return CreateLabel(numeric.Value.ToString(), 1, rowId);
             }
 
             if (valueType == typeof(NumericValue<float>))
             {
                 var numeric = (NumericValue<float>)value;
-                return Math.Abs(numeric.Value) > float.Epsilon ? CreateLabel(numeric.Value.ToString(), 1, rowId) : null;
+
+                //if (Math.Abs(numeric.Value) < float.Epsilon)
+                //    return null;
+
+                return CreateLabel(numeric.Value.ToString(), 1, rowId);
             }
 
             if (valueType == typeof(bool))
@@ -104,12 +112,16 @@ namespace GameDatabase.Controls
                 return CreateLabel(Helpers.ColorToString((Color)value), 1, rowId);
 
             if (valueType == typeof (Layout))
-                return null;//CreateLayout((Layout)value, 1, rowId);
+                return null; //CreateLayout((Layout)value, 1, rowId);
 
             if (valueType.IsArray)
             {
                 var array = (object[]) value;
-                return array.Length > 0 ? CreateLabel(string.Join("\n", array), 1, rowId) : null;
+
+                //if (array.Length == 0)
+                //    return null;
+
+                return CreateLabel(string.Join("\n", array), 1, rowId);
             }
 
             if (valueType == typeof (Vector2))
@@ -118,9 +130,17 @@ namespace GameDatabase.Controls
             if (value is IItemId)
             {
                 var itemid = (IItemId)value;
-                return itemid.IsNull ? null : CreateLabel(value.ToString(), 1, rowId);
-            }
 
+                //if (itemid.IsNull)
+                //    return null;
+
+                return CreateLabel(value.ToString(), 1, rowId);
+            }
+            
+            if (valueType.IsClass)
+            {
+                return CreateStructView(value, 1, rowId);
+            }
             return null;
         }
 
@@ -141,5 +161,19 @@ namespace GameDatabase.Controls
 
         private object _data;
         private Database _database;
+        
+        private Control CreateStructView(object data, int column, int row)
+        {
+            var view = new StructDataView
+            {
+                Dock = DockStyle.Fill,
+                AutoSize = true,
+                Database = _database,
+                Data = new DataAdapter(data),
+            };
+
+            tableLayoutPanel.Controls.Add(view, column, row);
+            return view;
+        }    
     }
 }
