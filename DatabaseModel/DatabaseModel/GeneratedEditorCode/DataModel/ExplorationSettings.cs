@@ -31,7 +31,6 @@ namespace EditorDatabase.DataModel
 			InfectedPlanetFaction = database.GetFactionId(serializable.InfectedPlanetFaction);
 			HiveShipBuild = database.GetShipBuildId(serializable.HiveShipBuild);
 			GasCloudDPS = serializable.GasCloudDPS;
-			AsteroidBelt.Value = DataModel.AsteroidBeltSettings.Create(serializable.AsteroidBelt, database);
 			OnDataDeserialized(serializable, database);
 		}
 
@@ -42,7 +41,6 @@ namespace EditorDatabase.DataModel
 			serializable.InfectedPlanetFaction = InfectedPlanetFaction.Value;
 			serializable.HiveShipBuild = HiveShipBuild.Value;
 			serializable.GasCloudDPS = GasCloudDPS;
-			serializable.AsteroidBelt = AsteroidBelt.Value?.Serialize();
 			OnDataSerialized(ref serializable);
 		}
 
@@ -51,7 +49,6 @@ namespace EditorDatabase.DataModel
 		public ItemId<Faction> InfectedPlanetFaction = ItemId<Faction>.Empty;
 		public ItemId<ShipBuild> HiveShipBuild = ItemId<ShipBuild>.Empty;
 		public string GasCloudDPS;
-		public ObjectWrapper<AsteroidBeltSettings> AsteroidBelt = new(DataModel.AsteroidBeltSettings.DefaultValue);
 
 		public static ExplorationSettings DefaultValue { get; private set; }
 	}

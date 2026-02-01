@@ -3,11 +3,5 @@
   "OutpostShip": 101,
   "TurretShip": 100,
   "InfectedPlanetFaction": 16,
-  "HiveShipBuild": 275,
-  "AsteroidBelt": {
-    "MeteoriteChance": 70,
-    "ContainerChance": 15,
-    "ShipWreckChance": 10,
-    "OutpostChance": 5
-  }
+  "HiveShipBuild": 275
 }

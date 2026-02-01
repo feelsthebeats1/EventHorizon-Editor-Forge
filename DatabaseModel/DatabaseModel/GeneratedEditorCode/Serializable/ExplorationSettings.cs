@@ -22,6 +22,5 @@ namespace EditorDatabase.Serializable
 		public int HiveShipBuild;
 		[DefaultValue("MIN(level*2,500)")]
 		public string GasCloudDPS = "MIN(level*2,500)";
-		public AsteroidBeltSettingsSerializable AsteroidBelt;
 	}
 }
