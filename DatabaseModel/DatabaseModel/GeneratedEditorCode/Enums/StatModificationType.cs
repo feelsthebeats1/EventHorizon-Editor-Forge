@@ -36,5 +36,14 @@ namespace EditorDatabase.Enums
 		Mass = 60,
 		EnergyCost = 61,
 		ExtraHitPoints = 62,
+		EnergyCapacityMultiplier = 70,
+		EnergyRechargeRateMultiplier = 71,
+		EnergyRechargeCooldown = 72,
+		ShieldPointsMultiplier = 73,
+		ShieldRechargeRateMultiplier = 74,
+		ShieldrechargeCooldownMultiplier = 75,
+		ArmorPointsMultiplier = 76,
+		ArmorRepairRateMultiplier = 77,
+		ArmorRepairCooldownMultiplier = 78,
 	}
 }
