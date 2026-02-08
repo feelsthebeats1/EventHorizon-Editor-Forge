@@ -18,13 +18,19 @@ namespace EditorDatabase.Serializable
 	{
 		public ComponentStatsType Type;
 		public float ArmorPoints;
+		public float ArmorPointsMultiplier;
 		public float ArmorRepairRate;
+		public float ArmorRepairMultiplier;
 		public float ArmorRepairCooldownModifier;
 		public float EnergyPoints;
+		public float EnergyPointsMultiplier;
 		public float EnergyRechargeRate;
+		public float EnergyRechargeMultiplier;
 		public float EnergyRechargeCooldownModifier;
 		public float ShieldPoints;
+		public float ShieldPointsMultiplier;
 		public float ShieldRechargeRate;
+		public float ShieldRechargeMultiplier;
 		public float ShieldRechargeCooldownModifier;
 		public float Weight;
 		public float RammingDamage;

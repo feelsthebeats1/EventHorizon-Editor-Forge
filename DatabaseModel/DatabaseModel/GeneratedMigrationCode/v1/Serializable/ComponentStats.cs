@@ -23,20 +23,20 @@ namespace DatabaseMigration.v1.Serializable
 		}
 
 		public ComponentStatsType Type;
-        public float ArmorPoints;
-        public float ArmorRepairRate;
-        public float ArmorPointsMultiplier;
-        public float ArmorRepairMultiplier;
-        public float ArmorRepairCooldownModifier;
-        public float EnergyPoints;
-        public float EnergyRechargeRate;
-        public float EnergyPointsMultiplier;
-        public float EnergyRechargeMultiplier;
-        public float EnergyRechargeCooldownModifier;
-        public float ShieldPoints;
-        public float ShieldRechargeRate;
-        public float ShieldPointsMultiplier;
-        public float ShieldRechargeMultiplier;
+		public float ArmorPoints;
+		public float ArmorPointsMultiplier;
+		public float ArmorRepairRate;
+		public float ArmorRepairMultiplier;
+		public float ArmorRepairCooldownModifier;
+		public float EnergyPoints;
+		public float EnergyPointsMultiplier;
+		public float EnergyRechargeRate;
+		public float EnergyRechargeMultiplier;
+		public float EnergyRechargeCooldownModifier;
+		public float ShieldPoints;
+		public float ShieldPointsMultiplier;
+		public float ShieldRechargeRate;
+		public float ShieldRechargeMultiplier;
 		public float ShieldRechargeCooldownModifier;
 		public float Weight;
 		public float RammingDamage;
