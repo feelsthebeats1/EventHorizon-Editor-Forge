@@ -50,5 +50,15 @@ namespace DatabaseMigration.v1.Serializable
 		public int DroneExplosionEffect;
 		[DefaultValue("")]
 		public string DroneExplosionSound;
+		[DefaultValue(5)]
+		public int ShipExtensionRequiredLevelBase = 5;
+		[DefaultValue(5)]
+		public int ShipExtensionRequiredLevelFactor1 = 5;
+		[DefaultValue(95)]
+		public int ShipExtensionRequiredLevelFactor2 = 95;
+		[DefaultValue(5)]
+		public int ShipExtensionShipyardLevelBase = 5;
+		[DefaultValue(5)]
+		public int ShipExtensionShipyardLevelPerCell = 5;
 	}
 }

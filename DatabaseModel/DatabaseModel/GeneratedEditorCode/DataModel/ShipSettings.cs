@@ -47,6 +47,11 @@ namespace EditorDatabase.DataModel
 			ShipExplosionSound = serializable.ShipExplosionSound;
 			DroneExplosionEffect = database.GetVisualEffectId(serializable.DroneExplosionEffect);
 			DroneExplosionSound = serializable.DroneExplosionSound;
+			ShipExtensionRequiredLevelBase = new NumericValue<int>(serializable.ShipExtensionRequiredLevelBase, 0, 1000);
+			ShipExtensionRequiredLevelFactor1 = new NumericValue<int>(serializable.ShipExtensionRequiredLevelFactor1, 0, 1000);
+			ShipExtensionRequiredLevelFactor2 = new NumericValue<int>(serializable.ShipExtensionRequiredLevelFactor2, 0, 1000);
+			ShipExtensionShipyardLevelBase = new NumericValue<int>(serializable.ShipExtensionShipyardLevelBase, 0, 1000);
+			ShipExtensionShipyardLevelPerCell = new NumericValue<int>(serializable.ShipExtensionShipyardLevelPerCell, 0, 1000);
 			OnDataDeserialized(serializable, database);
 		}
 
@@ -73,6 +78,11 @@ namespace EditorDatabase.DataModel
 			serializable.ShipExplosionSound = ShipExplosionSound;
 			serializable.DroneExplosionEffect = DroneExplosionEffect.Value;
 			serializable.DroneExplosionSound = DroneExplosionSound;
+			serializable.ShipExtensionRequiredLevelBase = ShipExtensionRequiredLevelBase.Value;
+			serializable.ShipExtensionRequiredLevelFactor1 = ShipExtensionRequiredLevelFactor1.Value;
+			serializable.ShipExtensionRequiredLevelFactor2 = ShipExtensionRequiredLevelFactor2.Value;
+			serializable.ShipExtensionShipyardLevelBase = ShipExtensionShipyardLevelBase.Value;
+			serializable.ShipExtensionShipyardLevelPerCell = ShipExtensionShipyardLevelPerCell.Value;
 			OnDataSerialized(ref serializable);
 		}
 
@@ -97,6 +107,11 @@ namespace EditorDatabase.DataModel
 		public string ShipExplosionSound;
 		public ItemId<VisualEffect> DroneExplosionEffect = ItemId<VisualEffect>.Empty;
 		public string DroneExplosionSound;
+		public NumericValue<int> ShipExtensionRequiredLevelBase = new NumericValue<int>(0, 0, 1000);
+		public NumericValue<int> ShipExtensionRequiredLevelFactor1 = new NumericValue<int>(0, 0, 1000);
+		public NumericValue<int> ShipExtensionRequiredLevelFactor2 = new NumericValue<int>(0, 0, 1000);
+		public NumericValue<int> ShipExtensionShipyardLevelBase = new NumericValue<int>(0, 0, 1000);
+		public NumericValue<int> ShipExtensionShipyardLevelPerCell = new NumericValue<int>(0, 0, 1000);
 
 		public static ShipSettings DefaultValue { get; private set; }
 	}
