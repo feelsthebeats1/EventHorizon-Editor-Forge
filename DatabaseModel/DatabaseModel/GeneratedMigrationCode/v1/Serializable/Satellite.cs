@@ -28,6 +28,8 @@ namespace DatabaseMigration.v1.Serializable
 		public string ModelImage;
 		public float ModelScale;
 		public SizeClass SizeClass;
+		public bool NotAvailableInBlackMarket;
+		public bool NotAvailableInRuins;
 		[DefaultValue("")]
 		public string Layout;
 		public BarrelSerializable[] Barrels;
