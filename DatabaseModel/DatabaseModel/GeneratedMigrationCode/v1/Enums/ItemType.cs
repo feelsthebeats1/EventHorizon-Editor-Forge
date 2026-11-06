@@ -62,5 +62,6 @@ namespace DatabaseMigration.v1.Enums
 		WeaponSlots = 118,
 		BlackMarketSettings = 119,
 		RuinsSettings = 120,
+		MarketSettings = 121,
 	}
 }

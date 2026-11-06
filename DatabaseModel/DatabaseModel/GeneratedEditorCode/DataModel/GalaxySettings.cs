@@ -38,6 +38,7 @@ namespace EditorDatabase.DataModel
 			SurvivalCombatRules = database.GetCombatRulesId(serializable.SurvivalCombatRules);
 			StarbaseCombatRules = database.GetCombatRulesId(serializable.StarbaseCombatRules);
 			FlagshipCombatRules = database.GetCombatRulesId(serializable.FlagshipCombatRules);
+			RuinsCombatRules = database.GetCombatRulesId(serializable.RuinsCombatRules);
 			ArenaCombatRules = database.GetCombatRulesId(serializable.ArenaCombatRules);
 			ChallengeCombatRules = database.GetCombatRulesId(serializable.ChallengeCombatRules);
 			QuickCombatRules = database.GetCombatRulesId(serializable.QuickCombatRules);
@@ -61,6 +62,7 @@ namespace EditorDatabase.DataModel
 			serializable.SurvivalCombatRules = SurvivalCombatRules.Value;
 			serializable.StarbaseCombatRules = StarbaseCombatRules.Value;
 			serializable.FlagshipCombatRules = FlagshipCombatRules.Value;
+			serializable.RuinsCombatRules = RuinsCombatRules.Value;
 			serializable.ArenaCombatRules = ArenaCombatRules.Value;
 			serializable.ChallengeCombatRules = ChallengeCombatRules.Value;
 			serializable.QuickCombatRules = QuickCombatRules.Value;
@@ -79,6 +81,8 @@ namespace EditorDatabase.DataModel
 		public ItemId<CombatRules> SurvivalCombatRules = ItemId<CombatRules>.Empty;
 		public ItemId<CombatRules> StarbaseCombatRules = ItemId<CombatRules>.Empty;
 		public ItemId<CombatRules> FlagshipCombatRules = ItemId<CombatRules>.Empty;
+		[TooltipText("Combat rules for a ruins attack.")]
+		public ItemId<CombatRules> RuinsCombatRules = ItemId<CombatRules>.Empty;
 		public ItemId<CombatRules> ArenaCombatRules = ItemId<CombatRules>.Empty;
 		public ItemId<CombatRules> ChallengeCombatRules = ItemId<CombatRules>.Empty;
 		public ItemId<CombatRules> QuickCombatRules = ItemId<CombatRules>.Empty;

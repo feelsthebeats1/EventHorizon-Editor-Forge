@@ -13,7 +13,11 @@ namespace EditorDatabase.DataModel
 
 		partial void OnDataSerialized(ref ComponentSerializable serializable)
         {
-            serializable.AmmunitionId = Ammunition.IsNull ? AmmunitionObsolete.Value : Ammunition.Value;
+            // The generated code writes AmmunitionId twice, and the obsolete value would win.
+            // Both references come from the same number, so the one that resolved to a record wins.
+            // Skip Ammunition.IsNull here: the saved id must not depend on how the editor names an
+            // empty reference.
+            serializable.AmmunitionId = Ammunition.Value != 0 ? Ammunition.Value : AmmunitionObsolete.Value;
             serializable.CellType = CellType != CellType.Empty ? ((char)CellType).ToString() : null;
         }
 

@@ -20,6 +20,7 @@ namespace GameDatabase
         public MainWindow()
         {
             InitializeComponent();
+            fileToolStripMenuItem.DropDownItems.Add("Convert satellite lists", null, ConvertSatelliteLists_Click);
         }
 
         private void MainWindow_Load(object sender, EventArgs eventArgs)
@@ -35,7 +36,6 @@ namespace GameDatabase
         {
             try
             {
-                DatabaseMigration.MigrationResources.LocateBuiltinDatabase(path, AppDomain.CurrentDomain.BaseDirectory);
                 DatabaseTreeView.Nodes.Clear();
                 var storage = new DatabaseStorage(path);
                 storage.LoadDatabaseVersion();
@@ -47,10 +47,7 @@ namespace GameDatabase
                     var dialogResult = MessageBox.Show($"Database version is outdated - {storage.Version}. Do you want to upgrade it to {Database.VersionMajor}.{Database.VersionMinor}?",
                         "Warning", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
-                    {
-                        AskForBuiltinDatabase(path);
                         _database = UpgradeDatabase(storage, path);
-                    }
                 }
                 else
                 {
@@ -75,32 +72,17 @@ namespace GameDatabase
             return database;
         }
 
-        // Migration 1.8 builds the satellite exclusion lists from the built-in catalog.
-        // A packaged editor has no game checkout next to it, so ask for the catalog
-        // folder when discovery fails. Declining leaves the path empty and the
-        // migration refuses to upgrade a partial mod.
-        private static void AskForBuiltinDatabase(string openedPath)
+        // A mod upgraded by an earlier 1.8 build still holds exclusion lists. Move them onto the
+        // Satellite records. Read the folder directly: BlackMarketSettings.json stops the load.
+        private void ConvertSatelliteLists_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(DatabaseMigration.MigrationResources.BuiltinDatabasePath)) return;
-
             using var dialog = new FolderBrowserDialog
             {
-                Description = "Migration 1.8 needs the built-in Database folder, the one that contains a Satellite folder.",
+                Description = "Select the mod folder that still holds BlackMarketSettings.json or an ExcludedSatellites field.",
             };
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var selected = dialog.SelectedPath;
-                // Reject if the selected folder is the opened mod itself.
-                if (string.Equals(
-                        DatabaseMigration.MigrationResources.NormalizePath(selected),
-                        DatabaseMigration.MigrationResources.OpenedDatabasePath,
-                        StringComparison.OrdinalIgnoreCase))
-                {
-                    MessageBox.Show("The selected folder is the opened mod itself. Please select the built-in catalog folder.");
-                    return;
-                }
-                DatabaseMigration.MigrationResources.BuiltinDatabasePath = selected;
-            }
+            if (dialog.ShowDialog() != DialogResult.OK) return;
+
+            MessageBox.Show(SatelliteListConverter.Convert(dialog.SelectedPath));
         }
 
         private void BuildFilesTree(string path, TreeNodeCollection nodeCollection)
@@ -279,14 +261,38 @@ namespace GameDatabase
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
+                if (!ConfirmZeroIdRecords()) return;
                 _database.Save(new DatabaseStorage(folderBrowserDialog1.SelectedPath));
             }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(_lastDatabasePath))
-                _database.Save(new DatabaseStorage(_lastDatabasePath));
+            if (string.IsNullOrWhiteSpace(_lastDatabasePath)) return;
+            if (!ConfirmZeroIdRecords()) return;
+            _database.Save(new DatabaseStorage(_lastDatabasePath));
+        }
+
+        // A record with id 0 loses its id line on save: the writer drops every field equal to the
+        // default, and 0 is that default. Ask once per session per record instead of failing quietly.
+        private readonly HashSet<string> _zeroIdWarned = new();
+
+        private bool ConfirmZeroIdRecords()
+        {
+            var offenders = _database.GetAllItems()
+                .Select(item => item.GetType().GetField("Id")?.GetValue(item) as IItemId)
+                .Where(id => id != null && id.Value == 0)
+                .Select(id => id.ItemType.Name + "  " + id.Name)
+                .Distinct()
+                .OrderBy(item => item)
+                .ToList();
+
+            var fresh = offenders.Where(item => _zeroIdWarned.Add(item)).ToList();
+            if (fresh.Count == 0) return true;
+
+            var message = "These records have id 0. Saving drops their id line:\n\n" +
+                string.Join("\n", fresh) + "\n\nUse a positive id instead. Save anyway?";
+            return MessageBox.Show(message, "Record id 0", MessageBoxButtons.YesNo) == DialogResult.Yes;
         }
 
         private void createModMenuItem_Click(object sender, EventArgs e)
@@ -310,6 +316,8 @@ namespace GameDatabase
 
                 if (saveFileDialog.ShowDialog() != DialogResult.OK)
                     return;
+
+                if (!ConfirmZeroIdRecords()) return;
 
                 _database.Save(new DatabaseStorage(_lastDatabasePath));
                 var builder = ModBuilder.Create(_lastDatabasePath, 

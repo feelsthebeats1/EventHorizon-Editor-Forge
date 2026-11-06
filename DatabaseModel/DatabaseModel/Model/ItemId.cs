@@ -37,7 +37,8 @@ namespace EditorDatabase.Model
         public int Value { get; }
         public string Name { get; }
         public Type ItemType => typeof(T);
-        public bool IsNull => Value <= 0;
+        // A lookup that finds nothing leaves Name empty, so id 0 stays distinguishable from no record.
+        public bool IsNull => Value < 0 || string.IsNullOrEmpty(Name);
 
         public override int GetHashCode() { return Value; }
 

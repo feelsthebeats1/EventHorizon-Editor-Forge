@@ -202,12 +202,6 @@ namespace DatabaseMigration.v1.Storage
                 data.FileName = name;
                 WeaponList.Add(data);
             }
-            else if (type == ItemType.BlackMarketSettings)
-            {
-                var data = _serializer.FromJson<BlackMarketSettingsSerializable>(content);
-                data.FileName = name;
-                BlackMarketSettings = data;
-            }
             else if (type == ItemType.CombatSettings)
             {
                 var data = _serializer.FromJson<CombatSettingsSerializable>(content);
@@ -249,6 +243,12 @@ namespace DatabaseMigration.v1.Storage
                 var data = _serializer.FromJson<LocalizationSettingsSerializable>(content);
                 data.FileName = name;
                 LocalizationSettings = data;
+            }
+            else if (type == ItemType.MarketSettings)
+            {
+                var data = _serializer.FromJson<MarketSettingsSerializable>(content);
+                data.FileName = name;
+                MarketSettings = data;
             }
             else if (type == ItemType.MusicPlaylist)
             {
@@ -360,8 +360,6 @@ namespace DatabaseMigration.v1.Storage
                 contentLoader.LoadJson(item.FileName, _serializer.ToJson(item));
             foreach (var item in WeaponList)
                 contentLoader.LoadJson(item.FileName, _serializer.ToJson(item));
-            if (BlackMarketSettings != null)
-                contentLoader.LoadJson(BlackMarketSettings.FileName, _serializer.ToJson(BlackMarketSettings));
             if (CombatSettings != null)
                 contentLoader.LoadJson(CombatSettings.FileName, _serializer.ToJson(CombatSettings));
             if (DatabaseSettings != null)
@@ -376,6 +374,8 @@ namespace DatabaseMigration.v1.Storage
                 contentLoader.LoadJson(GalaxySettings.FileName, _serializer.ToJson(GalaxySettings));
             if (LocalizationSettings != null)
                 contentLoader.LoadJson(LocalizationSettings.FileName, _serializer.ToJson(LocalizationSettings));
+            if (MarketSettings != null)
+                contentLoader.LoadJson(MarketSettings.FileName, _serializer.ToJson(MarketSettings));
             if (MusicPlaylist != null)
                 contentLoader.LoadJson(MusicPlaylist.FileName, _serializer.ToJson(MusicPlaylist));
             if (RuinsSettings != null)
@@ -415,7 +415,6 @@ namespace DatabaseMigration.v1.Storage
             _audioClips.Add(name, audioClip);
         }
 
-		public BlackMarketSettingsSerializable BlackMarketSettings { get; private set; }
 		public CombatSettingsSerializable CombatSettings { get; private set; }
 		public DatabaseSettingsSerializable DatabaseSettings { get; private set; }
 		public DebugSettingsSerializable DebugSettings { get; private set; }
@@ -423,6 +422,7 @@ namespace DatabaseMigration.v1.Storage
 		public FactionsSettingsSerializable FactionsSettings { get; private set; }
 		public GalaxySettingsSerializable GalaxySettings { get; private set; }
 		public LocalizationSettingsSerializable LocalizationSettings { get; private set; }
+		public MarketSettingsSerializable MarketSettings { get; private set; }
 		public MusicPlaylistSerializable MusicPlaylist { get; private set; }
 		public RuinsSettingsSerializable RuinsSettings { get; private set; }
 		public ShipModSettingsSerializable ShipModSettings { get; private set; }
@@ -432,7 +432,6 @@ namespace DatabaseMigration.v1.Storage
 		public UiSettingsSerializable UiSettings { get; private set; }
 		public WeaponSlotsSerializable WeaponSlots { get; private set; }
 
-		public BlackMarketSettingsSerializable CreateBlackMarketSettings() => BlackMarketSettings ?? (BlackMarketSettings = new BlackMarketSettingsSerializable());
 		public CombatSettingsSerializable CreateCombatSettings() => CombatSettings ?? (CombatSettings = new CombatSettingsSerializable());
 		public DatabaseSettingsSerializable CreateDatabaseSettings() => DatabaseSettings ?? (DatabaseSettings = new DatabaseSettingsSerializable());
 		public DebugSettingsSerializable CreateDebugSettings() => DebugSettings ?? (DebugSettings = new DebugSettingsSerializable());
@@ -440,6 +439,7 @@ namespace DatabaseMigration.v1.Storage
 		public FactionsSettingsSerializable CreateFactionsSettings() => FactionsSettings ?? (FactionsSettings = new FactionsSettingsSerializable());
 		public GalaxySettingsSerializable CreateGalaxySettings() => GalaxySettings ?? (GalaxySettings = new GalaxySettingsSerializable());
 		public LocalizationSettingsSerializable CreateLocalizationSettings() => LocalizationSettings ?? (LocalizationSettings = new LocalizationSettingsSerializable());
+		public MarketSettingsSerializable CreateMarketSettings() => MarketSettings ?? (MarketSettings = new MarketSettingsSerializable());
 		public MusicPlaylistSerializable CreateMusicPlaylist() => MusicPlaylist ?? (MusicPlaylist = new MusicPlaylistSerializable());
 		public RuinsSettingsSerializable CreateRuinsSettings() => RuinsSettings ?? (RuinsSettings = new RuinsSettingsSerializable());
 		public ShipModSettingsSerializable CreateShipModSettings() => ShipModSettings ?? (ShipModSettings = new ShipModSettingsSerializable());
